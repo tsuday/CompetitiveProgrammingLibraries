@@ -17,13 +17,13 @@ public class ExtendGcd {
 	static long x;static long y;
 	static long extgcd (long a, long b) {
 		long d = a;
-		if (b != 0) {
+		if (b != 0L) {
 			swap_xy();
 			d = extgcd(b, a%b);
 			swap_xy();
 			y -= (a/b)*x;
 		} else {
-			x = 1; y = 0;
+			x = 1L; y = 0L;
 		}
 		return d;
 	}
