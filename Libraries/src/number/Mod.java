@@ -54,4 +54,41 @@ public class Mod {
 		return d;
 	}
 	static void swap_xy() {long tmp=x;x=y;y=tmp;}
+
+
+	// array for n! mod p
+	static long[] fact;
+	// initialize fact[]
+	static void init(int n, long p) {
+		fact = new long[n+1];
+		fact[0] = 1;
+		for (int i=1;i<=n;i++) fact[i] = (fact[i-1] * i) % p;
+	}
+
+	// calculate a mod p s.t. n!=a*(p^e)
+	static long factNoDiv(long n, long p, long[] e) {
+		e[0] = 0;
+		if (n==0) return 1;
+		// part of multiple of p
+		long multip = factNoDiv(n/p, p, e);
+		e[0] += n/p;
+
+		// ((p-1)!)=-1(mod p) and (-1*a)=-a=p-a (mod p)
+		if ((n/p)%2==1) return multip * (p - fact[(int)(n%p)]) % p;
+		return multip * fact[(int)(n%p)] % p;
+	}
+
+	// nCk mod p
+	static long combination(long n, long k, long p) {
+		if (n<0||k<0||k>n) return 0;
+		// n=an*(p^en)
+		long[] en=new long[1], ek=new long[1], enMinusK=new long[1]; 
+		long an = factNoDiv(n, p, en);
+		long ak = factNoDiv(k, p, ek);
+		long anMinusK = factNoDiv(n-k, p, enMinusK);
+		
+		if (en[0]>ek[0]+enMinusK[0]) return 0; // nCk%p==0
+		return (an*modInverse((ak*anMinusK)%p,p)) %p;
+	}
+
 }
