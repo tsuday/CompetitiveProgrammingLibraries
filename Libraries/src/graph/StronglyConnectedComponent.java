@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 
 //public class GRL_3_C_StronglyConnectedComponent {
 public class StronglyConnectedComponent {
@@ -53,17 +54,43 @@ public class StronglyConnectedComponent {
 		revEdge[to].add(from);
 	}
 	static void dfsPostOrderNumbering(int v) {
+		// use stack instead of recursive call to avoid stack overflow
+		Stack<Integer> s = new Stack<Integer>();
+		s.push(v);
 		used[v] = true;
-		for (int i=0;i<edge[v].size();i++) {
-			if (!used[edge[v].get(i)]) dfsPostOrderNumbering(edge[v].get(i));
+		
+		while (!s.isEmpty()) {
+			int val = s.peek();
+			boolean bPushed = false;
+			for (int i=0;i<edge[val].size();i++) {
+				if (!used[edge[val].get(i)]) {
+					s.push(edge[val].get(i));
+					used[edge[val].get(i)] = true;
+					bPushed = true;
+					break;
+				}
+			}
+			if (!bPushed) {
+				lPostOrderNumber.add(s.pop());
+			}
 		}
-		lPostOrderNumber.add(v);
 	}
 	static void dfsMakeComponent(int v, int k) {
+		// use stack instead of recursive call to avoid stack overflow
+		Stack<Integer> s = new Stack<Integer>();
+		s.push(v);
 		used[v] = true;
 		order[v] = k;
-		for (int i=0;i<revEdge[v].size();i++) {
-			if (!used[revEdge[v].get(i)]) dfsMakeComponent(revEdge[v].get(i), k);
+
+		while (!s.isEmpty()) {
+			int val = s.pop();
+			for (int i=0;i<revEdge[val].size();i++) {
+				if (!used[revEdge[val].get(i)]) {
+					s.push(revEdge[val].get(i));
+					used[revEdge[val].get(i)] = true;
+					order[revEdge[val].get(i)] = k;
+				}
+			}
 		}
 	}
 	static long makeStronglyConnectedComponent(int v) {
@@ -78,4 +105,21 @@ public class StronglyConnectedComponent {
 		}
 		return k; // # of strongly connected components
 	}
+
+	// recursive call version
+//	static void dfsPostOrderNumbering(int v) {
+//		used[v] = true;
+//		for (int i=0;i<edge[v].size();i++) {
+//			if (!used[edge[v].get(i)]) dfsPostOrderNumbering(edge[v].get(i));
+//		}
+//		lPostOrderNumber.add(v);
+//	}
+//	static void dfsMakeComponent(int v, int k) {
+//		used[v] = true;
+//		order[v] = k;
+//		for (int i=0;i<revEdge[v].size();i++) {
+//			if (!used[revEdge[v].get(i)]) dfsMakeComponent(revEdge[v].get(i), k);
+//		}
+//	}
+
 }
