@@ -60,6 +60,15 @@ public class BellmanFord {
 		}
 		return false; // has no negative loop
 	}
+	@SuppressWarnings("unchecked")
+	static void init(int n) {
+		lEdge = new List[n];
+		for (int i=0;i<n;i++) {
+			lEdge[i] = new ArrayList<P>();
+		}
+		dist = new double[n];
+		Arrays.fill(dist, Double.MAX_VALUE);
+	}
 
 	static class P implements Comparable<P> {
 		int index; double length;

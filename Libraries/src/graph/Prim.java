@@ -54,6 +54,11 @@ public class Prim {
 		}
 		return res;
 	}
+	@SuppressWarnings("unchecked")
+	static void init(int n) {
+		lEdge = new List[n];
+		for (int i=0;i<n;i++) lEdge[i] = new ArrayList<P>();
+	}
 	
 	static class P implements Comparable<P> {
 		int index; int dist;

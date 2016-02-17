@@ -6,6 +6,9 @@ public class Map {
 //	int[] dy = {1, 0,-1};
 //	int[] dz = {1, 0,-1};
 
+	int[] d  = { 0, -1, 0, 1};
+	//int x=d[i];int y=d[i^1];
+
 
 	int[] dx = { 1, 0,-1, 0};
 	int[] dy = { 0, 1, 0,-1};
@@ -29,6 +32,8 @@ public class Map {
 		map[y] = s.substring(0, x) + c + s.substring(x+1, s.length());
 	}
 	
+
+
 //	public static void main(String[] args) {
 //		// TODO Auto-generated method stub
 //

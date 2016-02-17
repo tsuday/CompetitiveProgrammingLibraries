@@ -52,7 +52,15 @@ public class Dijkstra {
 				}
 			}
 		}
-		
+	}
+	@SuppressWarnings("unchecked")
+	static void init(int n) {
+		adList = new List[n];
+		for (int i=0;i<n;i++) {
+			adList[i] = new ArrayList<P>();
+		}
+		dist = new long[n];
+		Arrays.fill(dist, Long.MAX_VALUE);
 	}
 	static class P implements Comparable<P> {
 		int index; long dist;
