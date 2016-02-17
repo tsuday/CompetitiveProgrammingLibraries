@@ -1,5 +1,7 @@
 package graph;
 
+import graph.Dijkstra.P;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,7 +54,15 @@ public class DijkstraDouble {
 				}
 			}
 		}
-		
+	}
+	@SuppressWarnings("unchecked")
+	static void init(int n) {
+		adList = new List[n];
+		for (int i=0;i<n;i++) {
+			adList[i] = new ArrayList<P>();
+		}
+		dist = new double[n];
+		Arrays.fill(dist, Double.MAX_VALUE);
 	}
 	static class P implements Comparable<P> {
 		int index; double dist;

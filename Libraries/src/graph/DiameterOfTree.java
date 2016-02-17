@@ -1,41 +1,54 @@
 package graph;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
+//public class GRL_5_A_DiameterOfTree {
+public class DiameterOfTree {
 
-//public class ALDS1_12_C_ShortestPath2 {
-public class Dijkstra {
-	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
 		int n = in.nextInt();
-		
-		adList = new List[n];
-		for (int i=0;i<n;i++) {
-			adList[i] = new ArrayList<P>();
+
+		init(n);
+		for (int i=0;i<n-1;i++) {
+			int s = in.nextInt();
+			int t = in.nextInt();
+			int w = in.nextInt();
+			// bidirectional
+			adList[s].add(new P(t, w));
+			adList[t].add(new P(s, w));
 		}
-		for (int i=0;i<n;i++) {
-			int u=in.nextInt();int k = in.nextInt();
-			for (int j=0;j<k;j++) {
-				adList[i].add(new P(in.nextInt(), in.nextLong()));
-			}
-		}
-		dist = new long[n];
-		Arrays.fill(dist, Long.MAX_VALUE);
 		
-		dijkstra(0);
-		
-		for (int i=0;i<dist.length;i++) {
-			System.out.println(i+" "+dist[i]);
-		}
+		System.out.println(getFurthest().dist);
 	}
 
 	static List<P>[] adList;
 	static long[] dist;
+	static P getFurthest() { // return P have index and furthest distance
+		dijkstra(0);
+		long furthest = -1;
+		int furthestIdx = -1;
+		for (int i=0;i<dist.length;i++) {
+			if (furthest < dist[i]) {
+				furthest = dist[i];
+				furthestIdx = i;
+			}
+		}
+		Arrays.fill(dist, Long.MAX_VALUE);
+		dijkstra(furthestIdx);
+		furthest = -1;
+		furthestIdx = -1;
+		for (int i=0;i<dist.length;i++) {
+			if (furthest < dist[i]) {
+				furthest = dist[i];
+				furthestIdx = i;
+			}
+		}
+		return new P(furthestIdx, furthest);
+	}
 	static void dijkstra(int s) { // s is start
 		dist[s] = 0L;
 		PriorityQueue<P> q = new PriorityQueue<P>();
